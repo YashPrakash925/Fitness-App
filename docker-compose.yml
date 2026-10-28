@@ -1,0 +1,20 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: fitness-tracker-db
+    environment:
+      POSTGRES_DB: fitness_tracker
+      POSTGRES_USER: fitness
+      POSTGRES_PASSWORD: fitness_dev_only
+    ports:
+      - "5432:5432"
+    volumes:
+      - fitness_tracker_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fitness -d fitness_tracker"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  fitness_tracker_data:
